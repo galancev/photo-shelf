@@ -10,12 +10,29 @@
       "email": "galandets@gmail.com"
     }
   ],
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/galancev/yasdoh"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/galancev/console-log"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/galancev/bot"
+    }
+  ],
   "require": {
-    "php": ">=5.4.0"
+    "php": ">=5.4.0",
+    "galancev/bot": "dev-master",
+    "galancev/yasdoh": "dev-master",
+    "galancev/console-log": "dev-master"
   },
   "autoload": {
     "psr-4": {
-      "Galantcev\\Components\\": ""
+      "Galantcev\\Components\\": "src/"
     }
   }
 }

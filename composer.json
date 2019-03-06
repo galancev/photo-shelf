@@ -25,7 +25,9 @@
     }
   ],
   "require": {
-    "php": ">=5.4.0",
+    "php": ">=5.4.0"
+  },
+  "require-dev": {
     "galancev/bot": "dev-master",
     "galancev/yasdoh": "dev-master",
     "galancev/console-log": "dev-master"
@@ -33,6 +35,11 @@
   "autoload": {
     "psr-4": {
       "Galantcev\\Components\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Galantcev\\Components\\": ""
     }
   }
 }

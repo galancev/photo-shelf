@@ -7,7 +7,7 @@ namespace {
 namespace bot {
 
     use Galantcev\Components\Bot;
-    use PhotoShelf;
+    use Galantcev\Components\PhotoShelf;
 
     /**
      * Class PhotoShelfBot
@@ -20,7 +20,7 @@ namespace bot {
          */
         public function go()
         {
-            $photoShelf = new PhotoShelf('/home/a');
+            $photoShelf = new PhotoShelf($_SERVER['argv'][1]);
 
             $photoShelf->setOutCallback(function ($str) {
                 $this->log->text($str);

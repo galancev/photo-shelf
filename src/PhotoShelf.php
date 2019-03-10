@@ -1,5 +1,12 @@
 <?php
 
+namespace Galantcev\Components;
+
+use Closure;
+use SplFileInfo;
+use RecursiveIteratorIterator;
+use RecursiveDirectoryIterator;
+
 /**
  * Класс, раскладывающий фотки по годам
  * Class PhotoShelf
@@ -23,6 +30,15 @@ class PhotoShelf
      * @var SplFileInfo[]
      */
     private $files = [];
+
+    protected $dateFields = [
+        'DateTaken',
+        'DateTimeOriginal',
+        'DateTimeDigitized',
+
+        'DateTime',
+        'DateModified',
+    ];
 
     /**
      * PhotoShelf constructor.
@@ -69,7 +85,7 @@ class PhotoShelf
     /**
      * Заполняет список файлов для обработки
      */
-    private function setFilesList()
+    protected function setFilesList()
     {
         $this->out('Scaning photo files...');
 
@@ -87,7 +103,7 @@ class PhotoShelf
      * Добавляет файл в список обработки
      * @param SplFileInfo $fileName
      */
-    private function addFile($fileName)
+    protected function addFile($fileName)
     {
         $this->files[] = $fileName;
     }
@@ -95,7 +111,7 @@ class PhotoShelf
     /**
      * Обработка файлов и создание
      */
-    private function processFiles()
+    protected function processFiles()
     {
         if (empty($this->files))
             return false;
@@ -108,19 +124,10 @@ class PhotoShelf
 
                 $exif = exif_read_data($file);
 
-                if (!empty($exif) && isset($exif['DateTime'])) {
-                    $fileDate = strtotime($exif['DateTime']);
-                } else if (!empty($exif) && isset($exif['DateTaken'])) {
-                    $fileDate = strtotime($exif['DateTaken']);
-                } else if (!empty($exif) && isset($exif['DateTimeOriginal'])) {
-                    $fileDate = strtotime($exif['DateTimeOriginal']);
-                } else if (!empty($exif) && isset($exif['DateTimeDigitized'])) {
-                    $fileDate = strtotime($exif['DateTimeDigitized']);
-                } else if (!empty($exif) && isset($exif['DateModified'])) {
-                    $fileDate = strtotime($exif['DateModified']);
-                } else {
+                $fileDate = $this->getDatetime($exif);
+
+                if (empty($fileDate))
                     $fileDate = filemtime($file);
-                }
 
                 $this->out(date('Y-m-d H:i:s', $fileDate));
 
@@ -135,5 +142,24 @@ class PhotoShelf
         $this->out('Moving photo files complete!');
 
         return true;
+    }
+
+    /**
+     * Возвращает дату по exif-информации
+     * @param array $exif
+     * @return string
+     */
+    protected function getDatetime($exif)
+    {
+        if (empty($exif))
+            return '';
+
+        foreach ($this->dateFields as $field) {
+            if (isset($exif[$field]) && !empty($exif[$field])) {
+                return strtotime($exif[$field]);
+            }
+        }
+
+        return '';
     }
 }

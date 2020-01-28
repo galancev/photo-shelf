@@ -1,6 +1,6 @@
 <?php
 
-namespace Galantcev\Components;
+namespace EG\Components;
 
 use Closure;
 use SplFileInfo;

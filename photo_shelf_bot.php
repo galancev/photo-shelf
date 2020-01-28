@@ -6,8 +6,8 @@ namespace {
 
 namespace bot {
 
-    use Galantcev\Components\Bot;
-    use Galantcev\Components\PhotoShelf;
+    use EG\Components\Bot;
+    use EG\Components\PhotoShelf;
 
     /**
      * Class PhotoShelfBot
